@@ -1,0 +1,12 @@
+{
+  "name": "ta-booking",
+  "version": "0.0.1",
+  "description": "A simple booking system for TAs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "vue": "^3.5.2"
+  }
+}
