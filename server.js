@@ -1,6 +1,9 @@
 const http = require('http');
 const fs   = require('fs');
 const port = 8080;
+const qs   = require('querystring')
+
+var nameList = [];
 
 function getRequestHandler(url, res) {
     var data = fs.readFileSync(url);
@@ -36,7 +39,8 @@ const server = http.createServer((req,res) => {
             body.push(chunk);
         }).on('end', () => {
             body = Buffer.concat(body).toString();
-            console.log(body);
+            nameList.push(qs.parse(body).name);
+            //console.log(nameList);
         });
     }
 });
