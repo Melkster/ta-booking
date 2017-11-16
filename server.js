@@ -2,32 +2,28 @@ const http = require('http');
 const fs   = require('fs');
 const port = 8080;
 
+function getRequestHandler(url, res) {
+    var data = fs.readFileSync(url);
+    res.write(data);
+    res.end();
+}
+
 const server = http.createServer((req,res) => {
     if (req.method == 'GET') {
         if(req.url == '/') {
-            var data = fs.readFileSync('./index.html');
-            res.write(data);
-            res.end();
+            getRequestHandler('./index.html', res);
         }
         else if (req.url == '/app.js') {
-            var data = fs.readFileSync('./app.js');
-            res.write(data);
-            res.end();
+            getRequestHandler('./app.js', res);
         }
         else if (req.url == '/node_modules/vue/dist/vue.js') {
-            var data = fs.readFileSync('./node_modules/vue/dist/vue.js');
-            res.write(data);
-            res.end();
+            getRequestHandler('./node_modules/vue/dist/vue.js', res);
         }
         else if (req.url == '/student') {
-            var data = fs.readFileSync('./student.html');
-            res.write(data);
-            res.end();
+            getRequestHandler('./student.html', res);
         }
         else if (req.url == '/student.js') {
-            var data = fs.readFileSync('./student.js');
-            res.write(data);
-            res.end();
+            getRequestHandler('./student.js', res);
         }
     }
     else if (req.method == 'POST') {
@@ -44,6 +40,7 @@ const server = http.createServer((req,res) => {
         });
     }
 });
+
 server.listen(port);
 console.log('Server running on port ' + port);
 
