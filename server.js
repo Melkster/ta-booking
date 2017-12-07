@@ -58,8 +58,8 @@ const server = http.createServer((req,res) => {
 var io = require('socket.io')(server);
 io.on('connection', function(client){
     console.log('User connected');
-    client.on('event', function(data){
-
+    client.on('studentPicketUp', function(data){
+        console.log(data);
     });
     client.on('disconnect', function(){
         console.log('User disconnected');
