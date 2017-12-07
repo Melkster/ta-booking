@@ -28,6 +28,16 @@ const server = http.createServer((req,res) => {
         else if (req.url == '/student.js') {
             getRequestHandler('./student.js', res);
         }
+        else if (req.url == '/ta') {
+            getRequestHandler('./ta.html', res);
+        }
+        else if (req.url == '/ta.js') {
+            getRequestHandler('./ta.js', res);
+        }
+        else if (req.url == 'nameList') {
+            res.write("nameList");
+            res.end();
+        }
     }
     else if (req.method == 'POST') {
         console.log("POST request!");
@@ -40,14 +50,24 @@ const server = http.createServer((req,res) => {
         }).on('end', () => {
             body = Buffer.concat(body).toString();
             nameList.push(qs.parse(body).name);
-            //console.log(nameList);
+            console.log(nameList);
         });
     }
 });
 
-server.listen(port);
+var io = require('socket.io')(server);
+io.on('connection', function(client){
+    console.log('User connected');
+    client.on('event', function(data){
+
+    });
+    client.on('disconnect', function(){
+        console.log('User disconnected');
+    });
+});
+
 console.log('Server running on port ' + port);
 
-server.listen(8080).on('error', (err) => {
+server.listen(port).on('error', (err) => {
     throw err;
 });
