@@ -2,17 +2,17 @@ const socket = io();
 
 socket.emit('getStudentList');
 
-socket.on('studentList', function(data) {
-    console.log("'studentList' recieved from server");
-    app.studentList = data.studentList;
+socket.on('needHelpList', function(data) {
+    console.log("'needHelpList' recieved from server");
+    app.needHelpList = data.needHelpList;
     app.helpedList = data.helpedList;
-    console.log(app.studentList);
+    console.log(app.needHelpList);
 });
 
 var app = new Vue({
     el: '#app',
     data: {
-        studentList: [],
+        needHelpList: [],
         helpedList: []
     },
     methods: {

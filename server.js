@@ -4,7 +4,7 @@ const port = 8080;
 const qs   = require('querystring')
 
 var students = {
-    'studentList': ["Michael"],
+    'needHelpList': ["Michael"],
     'helpedList': ["Jonatan"]
 }
 
@@ -33,15 +33,11 @@ const server = http.createServer((req,res) => {
         }
         else if (req.url == '/ta') {
             getRequestHandler('./ta.html', res);
-            io.emit('studentList', students.studentList);
+            io.emit('needHelpList', students.needHelpList);
         }
         else if (req.url == '/ta.js') {
             getRequestHandler('./ta.js', res);
         }
-        //else if (req.url == 'nameList') {
-            //res.write("nameList");
-            //res.end();
-        //}
         else if (req.url == '/node_modules/socket.io-client/dist/socket.io.js') {
             getRequestHandler('./node_modules/socket.io-client/dist/socket.io.js', res);
         }
@@ -59,9 +55,9 @@ const server = http.createServer((req,res) => {
         }).on('end', () => {
             body = Buffer.concat(body).toString();
             name = qs.parse(body).name
-            students.studentList.push(name);
+            students.needHelpList.push(name);
             console.log('Student "' + name + '" added to list');
-            io.emit('studentList', students);
+            io.emit('needHelpList', students);
         });
         getRequestHandler('./wait.html', res);
     }
@@ -71,18 +67,18 @@ var io = require('socket.io')(server);
 
 io.on('connection', function(client){
     console.log('User connected');
-    //client.send('studentList', nameList);
+    //client.send('needHelpList', nameList);
     client.on('studentPickedUp', function(data){
-        io.emit('studentList', students);
+        io.emit('needHelpList', students);
         console.log(data);
     });
     client.on('getStudentList', function(data){
-        io.emit('studentList', students);
+        io.emit('needHelpList', students);
     });
     client.on('pickup', function(index){
-        students.helpedList.push(students.studentList[index]);
-        students.studentList.splice(index, 1);
-        io.emit('studentList', students);
+        students.helpedList.push(students.needHelpList[index]);
+        students.needHelpList.splice(index, 1);
+        io.emit('needHelpList', students);
     });
     client.on('disconnect', function(){
         console.log('User disconnected');
