@@ -3,21 +3,6 @@ const fs   = require('fs');
 const port = 8080;
 const qs   = require('querystring')
 
-var students = {
-    'needHelpList': [
-        {
-            id: counter.generateId,
-            name: "Michael"
-        }
-    ],
-    'helpedList': [
-        {
-            id: counter.generateId,
-            name: "Jonatan"
-        }
-    ],
-}
-
 counter = {
     id: 0,
     generateId: function() {
@@ -25,8 +10,23 @@ counter = {
     }
 }
 
+var students = {
+    'needHelpList': [
+        {
+            id: counter.generateId(),
+            name: "Michael"
+        }
+    ],
+    'helpedList': [
+        {
+            id: counter.generateId(),
+            name: "Jonatan"
+        }
+    ],
+}
+
 function helpStudent(id) {
-    for (var i = 0; students.needHelpList.length; i++) {
+    for (var i = 0; i < students.needHelpList.length; i++) {
         if (students.needHelpList[i].id == id) {
             students.helpedList.push(students.needHelpList[i]);
             students.needHelpList.splice(i, 1);
@@ -82,7 +82,6 @@ const server = http.createServer((req,res) => {
         }).on('end', () => {
             body = Buffer.concat(body).toString();
             name = qs.parse(body).name
-            console.log(name)
             students.needHelpList.push({
                 id: counter.generateId(),
                 name: name
@@ -108,7 +107,6 @@ io.on('connection', function(client){
     client.on('pickup', function(id) {
         helpStudent(id);
         io.emit('needHelpList', students);
-        console.log(counter.generateId())
     });
     client.on('disconnect', function(){
         console.log('User disconnected');

@@ -20,8 +20,9 @@ var app = new Vue({
         emit: (data) => {
             socket.emit('studentPickedUp', data);
         },
-        pickup: (index) => {
-            socket.emit('pickup',index);
+        pickup: (id) => {
+            console.log(id);
+            socket.emit('pickup', id);
         }
     }
 });
