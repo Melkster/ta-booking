@@ -8,7 +8,9 @@ var app = new Vue({
         studentList: studentList
     },
     methods: {
-        //req: getRequest()
+        emit: (data) => {
+            socket.emit('studentPicketUp', data)
+        }
         //post_request: () => {
             //poll(() => new Promise(() => {
                 //Vue.http.get('name', name).then((val) => {
