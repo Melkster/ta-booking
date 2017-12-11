@@ -1,7 +1,7 @@
 const socket = io();
-//var io = require('socket.io-client');
 
 var list = [];
+socket.emit('getStudentList', "");
 
 socket.on('studentList', function(data) {
     console.log("'studentList' recieved from server");
@@ -13,7 +13,6 @@ var app = new Vue({
     el: '#app',
     data: {
         studentList: list,
-        name
     },
     methods: {
         emit: (data) => {

@@ -47,7 +47,6 @@ const server = http.createServer((req,res) => {
         }
     }
     else if (req.method == 'POST') {
-        //console.log("POST request!");
         var body = [];
         req.on('error', (err) => {
             console.log(err);
@@ -61,7 +60,7 @@ const server = http.createServer((req,res) => {
             console.log('Student "' + name + '" added to list');
             io.emit('studentList', nameList);
         });
-        getRequestHandler('./student.html', res);
+        getRequestHandler('./wait.html', res);
     }
 });
 
@@ -73,6 +72,9 @@ io.on('connection', function(client){
     client.on('studentPickedUp', function(data){
         io.emit('studentList', nameList)
         console.log(data);
+    });
+    client.on('getStudentList', function(data){
+        io.emit('studentList', nameList)
     });
     client.on('disconnect', function(){
         console.log('User disconnected');
