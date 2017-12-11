@@ -47,7 +47,6 @@ const server = http.createServer((req,res) => {
         }
     }
     else if (req.method == 'POST') {
-        //console.log("POST request!");
         var body = [];
         req.on('error', (err) => {
             console.log(err);
@@ -61,7 +60,7 @@ const server = http.createServer((req,res) => {
             console.log('Student "' + name + '" added to list');
             io.emit('studentList', nameList);
         });
-        getRequestHandler('./student.html', res);
+        getRequestHandler('./wait.html', res);
     }
 });
 
