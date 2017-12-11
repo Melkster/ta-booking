@@ -1,25 +1,26 @@
 const socket = io();
 
-var list = [];
-socket.emit('getStudentList', "");
+socket.emit('getStudentList');
 
 socket.on('studentList', function(data) {
     console.log("'studentList' recieved from server");
-    console.log(data);
-    app.studentList = data;
+    app.studentList = data.studentList;
+    app.helpedList = data.helpedList;
+    console.log(app.studentList);
 });
 
 var app = new Vue({
     el: '#app',
     data: {
-        studentList: list,
+        studentList: [],
+        helpedList: []
     },
     methods: {
         emit: (data) => {
             socket.emit('studentPickedUp', data);
         },
-	pickup: (index) => {
-	    socket.emit('pickup',index);
-	}  
+        pickup: (index) => {
+            socket.emit('pickup',index);
+        }
     }
 });

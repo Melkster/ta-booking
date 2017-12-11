@@ -3,7 +3,10 @@ const fs   = require('fs');
 const port = 8080;
 const qs   = require('querystring')
 
-var nameList = ["student name"];
+var students = {
+    'studentList': ["Michael"],
+    'helpedList': ["Jonatan"]
+}
 
 function getRequestHandler(url, res) {
     var data = fs.readFileSync(url);
@@ -30,15 +33,15 @@ const server = http.createServer((req,res) => {
         }
         else if (req.url == '/ta') {
             getRequestHandler('./ta.html', res);
-            io.emit('studentList', nameList);
+            io.emit('studentList', students.studentList);
         }
         else if (req.url == '/ta.js') {
             getRequestHandler('./ta.js', res);
         }
-        else if (req.url == 'nameList') {
-            res.write("nameList");
-            res.end();
-        }
+        //else if (req.url == 'nameList') {
+            //res.write("nameList");
+            //res.end();
+        //}
         else if (req.url == '/node_modules/socket.io-client/dist/socket.io.js') {
             getRequestHandler('./node_modules/socket.io-client/dist/socket.io.js', res);
         }
@@ -56,9 +59,9 @@ const server = http.createServer((req,res) => {
         }).on('end', () => {
             body = Buffer.concat(body).toString();
             name = qs.parse(body).name
-            nameList.push(name);
+            students.studentList.push(name);
             console.log('Student "' + name + '" added to list');
-            io.emit('studentList', nameList);
+            io.emit('studentList', students);
         });
         getRequestHandler('./wait.html', res);
     }
@@ -68,14 +71,18 @@ var io = require('socket.io')(server);
 
 io.on('connection', function(client){
     console.log('User connected');
-    client.send('studentList', nameList);
+    //client.send('studentList', nameList);
     client.on('studentPickedUp', function(data){
-        io.emit('studentList', nameList)
+        io.emit('studentList', students);
         console.log(data);
     });
-    client.on('pickup',function(index){
-	nameList.splice(index,1);
-	io.emit('studentList', nameList)
+    client.on('getStudentList', function(data){
+        io.emit('studentList', students);
+    });
+    client.on('pickup', function(index){
+        students.helpedList.push(students.studentList[index]);
+        students.studentList.splice(index, 1);
+        io.emit('studentList', students);
     });
     client.on('disconnect', function(){
         console.log('User disconnected');

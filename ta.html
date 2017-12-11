@@ -11,12 +11,18 @@
     <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
 
     <div id="app">
-      <button v-on:click="emit('hej')">Emit</button>
+      <h3>Students that need help</h3>
       <ul>
-	<li v-for="(name,index) in studentList">
-	  {{ name }}
-	  <button v-on:click="pickup(index)">Pick up</button>
-	</li>
+        <li v-for="(name, index) in studentList">
+          {{ name }}
+          <button v-on:click="pickup(index)">Pick up</button>
+        </li>
+      </ul>
+      <h3>Students that are getting helped</h3>
+      <ul>
+        <li v-for="(name, index) in helpedList">
+          {{ name }}
+        </li>
       </ul>
     </div>
     <script src="ta.js"></script>
