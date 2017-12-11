@@ -4,8 +4,35 @@ const port = 8080;
 const qs   = require('querystring')
 
 var students = {
-    'needHelpList': ["Michael"],
-    'helpedList': ["Jonatan"]
+    'needHelpList': [
+        {
+            id: counter.generateId,
+            name: "Michael"
+        }
+    ],
+    'helpedList': [
+        {
+            id: counter.generateId,
+            name: "Jonatan"
+        }
+    ],
+}
+
+counter = {
+    id: 0,
+    generateId: function() {
+        return this.id++;
+    }
+}
+
+function helpStudent(id) {
+    for (var i = 0; students.needHelpList.length; i++) {
+        if (students.needHelpList[i].id == id) {
+            students.helpedList.push(students.needHelpList[i]);
+            students.needHelpList.splice(i, 1);
+            break;
+        }
+    }
 }
 
 function getRequestHandler(url, res) {
@@ -55,7 +82,11 @@ const server = http.createServer((req,res) => {
         }).on('end', () => {
             body = Buffer.concat(body).toString();
             name = qs.parse(body).name
-            students.needHelpList.push(name);
+            console.log(name)
+            students.needHelpList.push({
+                id: counter.generateId(),
+                name: name
+            });
             console.log('Student "' + name + '" added to list');
             io.emit('needHelpList', students);
         });
@@ -67,7 +98,6 @@ var io = require('socket.io')(server);
 
 io.on('connection', function(client){
     console.log('User connected');
-    //client.send('needHelpList', nameList);
     client.on('studentPickedUp', function(data){
         io.emit('needHelpList', students);
         console.log(data);
@@ -75,10 +105,10 @@ io.on('connection', function(client){
     client.on('getStudentList', function(data){
         io.emit('needHelpList', students);
     });
-    client.on('pickup', function(index){
-        students.helpedList.push(students.needHelpList[index]);
-        students.needHelpList.splice(index, 1);
+    client.on('pickup', function(id) {
+        helpStudent(id);
         io.emit('needHelpList', students);
+        console.log(counter.generateId())
     });
     client.on('disconnect', function(){
         console.log('User disconnected');

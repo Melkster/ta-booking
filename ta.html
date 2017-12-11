@@ -13,15 +13,15 @@
     <div id="app">
       <h3>Students that need help</h3>
       <ul>
-        <li v-for="(name, index) in needHelpList">
-          {{ name }}
-          <button v-on:click="pickup(index)">Pick up</button>
+        <li v-for="person in needHelpList">
+          {{ person.name }}
+          <button v-on:click="pickup(person.id)">Pick up</button>
         </li>
       </ul>
       <h3>Students that are getting helped</h3>
       <ul>
-        <li v-for="(name, index) in helpedList">
-          {{ name }}
+        <li v-for="person in helpedList">
+          {{ person.name }}
         </li>
       </ul>
     </div>

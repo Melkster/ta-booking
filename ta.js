@@ -7,6 +7,7 @@ socket.on('needHelpList', function(data) {
     app.needHelpList = data.needHelpList;
     app.helpedList = data.helpedList;
     console.log(app.needHelpList);
+    console.log(app.helpedList);
 });
 
 var app = new Vue({
