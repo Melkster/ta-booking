@@ -1,6 +1,6 @@
 const http = require('http');
 const fs   = require('fs');
-const port = 80;
+const port = 8080;
 const qs   = require('querystring')
 
 var nameList = ["student name"];
@@ -42,9 +42,12 @@ const server = http.createServer((req,res) => {
         else if (req.url == '/node_modules/socket.io-client/dist/socket.io.js') {
             getRequestHandler('./node_modules/socket.io-client/dist/socket.io.js', res);
         }
+        else if (req.url == '/wait') {
+            getRequestHandler('./wait.html', res);
+        }
     }
     else if (req.method == 'POST') {
-        console.log("POST request!");
+        //console.log("POST request!");
         var body = [];
         req.on('error', (err) => {
             console.log(err);
@@ -53,10 +56,12 @@ const server = http.createServer((req,res) => {
             body.push(chunk);
         }).on('end', () => {
             body = Buffer.concat(body).toString();
-            nameList.push(qs.parse(body).name);
-            console.log(nameList);
+            name = qs.parse(body).name
+            nameList.push(name);
+            console.log('Student "' + name + '" added to list');
+            io.emit('studentList', nameList);
         });
-	getRequestHandler('./student.html', res);
+        getRequestHandler('./student.html', res);
     }
 });
 
