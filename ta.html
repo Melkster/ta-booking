@@ -12,7 +12,12 @@
 
     <div id="app">
       <button v-on:click="emit('hej')">Emit</button>
-      {{ studentList }}
+      <ul>
+	<li v-for="name in studentList">
+	  {{ name }}
+	  <button>Pick up</button>
+	</li>
+      </ul>
     </div>
     <script src="ta.js"></script>
   </body>
