@@ -1,6 +1,6 @@
 const http = require('http');
 const fs   = require('fs');
-const port = 8080;
+const port = 80;
 const qs   = require('querystring')
 
 var nameList = ["student name"];
@@ -56,6 +56,7 @@ const server = http.createServer((req,res) => {
             nameList.push(qs.parse(body).name);
             console.log(nameList);
         });
+	getRequestHandler('./student.html', res);
     }
 });
 
