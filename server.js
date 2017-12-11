@@ -74,6 +74,10 @@ io.on('connection', function(client){
         io.emit('studentList', nameList)
         console.log(data);
     });
+    client.on('pickup',function(index){
+	nameList.splice(index,1);
+	io.emit('studentList', nameList)
+    });
     client.on('disconnect', function(){
         console.log('User disconnected');
     });

@@ -13,9 +13,9 @@
     <div id="app">
       <button v-on:click="emit('hej')">Emit</button>
       <ul>
-	<li v-for="name in studentList">
+	<li v-for="(name,index) in studentList">
 	  {{ name }}
-	  <button>Pick up</button>
+	  <button v-on:click="pickup(index)">Pick up</button>
 	</li>
       </ul>
     </div>
