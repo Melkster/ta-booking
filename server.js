@@ -3,7 +3,7 @@ const fs   = require('fs');
 const port = 8080;
 const qs   = require('querystring')
 
-var nameList = [];
+var nameList = ["student name"];
 
 function getRequestHandler(url, res) {
     var data = fs.readFileSync(url);
@@ -30,6 +30,7 @@ const server = http.createServer((req,res) => {
         }
         else if (req.url == '/ta') {
             getRequestHandler('./ta.html', res);
+            io.emit('studentList', nameList);
         }
         else if (req.url == '/ta.js') {
             getRequestHandler('./ta.js', res);
@@ -37,6 +38,9 @@ const server = http.createServer((req,res) => {
         else if (req.url == 'nameList') {
             res.write("nameList");
             res.end();
+        }
+        else if (req.url == '/node_modules/socket.io-client/dist/socket.io.js') {
+            getRequestHandler('./node_modules/socket.io-client/dist/socket.io.js', res);
         }
     }
     else if (req.method == 'POST') {
@@ -56,9 +60,12 @@ const server = http.createServer((req,res) => {
 });
 
 var io = require('socket.io')(server);
+
 io.on('connection', function(client){
     console.log('User connected');
-    client.on('studentPicketUp', function(data){
+    client.send('studentList', nameList);
+    client.on('studentPickedUp', function(data){
+        io.emit('studentList', nameList)
         console.log(data);
     });
     client.on('disconnect', function(){
@@ -66,8 +73,9 @@ io.on('connection', function(client){
     });
 });
 
-console.log('Server running on port ' + port);
-
 server.listen(port).on('error', (err) => {
+    console.log(err);
     throw err;
 });
+
+console.log('Server running on port ' + port);

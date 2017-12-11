@@ -7,11 +7,11 @@
   </head>
 
   <body>
-    <script src="node_modules/vue/dist/vue.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="/node_modules/vue/dist/vue.js"></script>
+    <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
 
     <div id="app">
-    <button v-on:click="emit('hej')">Emit</button>
+      <button v-on:click="emit('hej')">Emit</button>
       {{ studentList }}
     </div>
     <script src="ta.js"></script>

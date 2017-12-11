@@ -1,22 +1,23 @@
 const socket = io();
+//var io = require('socket.io-client');
 
-var studentList = "";
+var list = [];
+
+socket.on('studentList', function(data) {
+    console.log("'studentList' recieved from server");
+    console.log(data);
+    app.studentList = data;
+});
 
 var app = new Vue({
     el: '#app',
     data: {
-        studentList: studentList
+        studentList: list,
+        name
     },
     methods: {
         emit: (data) => {
-            socket.emit('studentPicketUp', data)
+            socket.emit('studentPickedUp', data);
         }
-        //post_request: () => {
-            //poll(() => new Promise(() => {
-                //Vue.http.get('name', name).then((val) => {
-                    //console.log('Request sent')), 1000)
-                //}
-            //});
-        //}
     }
 });
