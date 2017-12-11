@@ -1,6 +1,6 @@
 const http = require('http');
 const fs   = require('fs');
-const port = 8080;
+const port = 80;
 const qs   = require('querystring')
 
 counter = {
@@ -30,6 +30,15 @@ function helpStudent(id) {
         if (students.needHelpList[i].id == id) {
             students.helpedList.push(students.needHelpList[i]);
             students.needHelpList.splice(i, 1);
+            break;
+        }
+    }
+}
+
+function doneStudent(id) {
+    for (var i = 0; i < students.helpedList.length; i++) {
+        if (students.helpedList[i].id == id) {
+            students.helpedList.splice(i, 1);
             break;
         }
     }
@@ -106,6 +115,10 @@ io.on('connection', function(client){
     });
     client.on('pickup', function(id) {
         helpStudent(id);
+        io.emit('needHelpList', students);
+    });
+    client.on('done', function(id) {
+        doneStudent(id);
         io.emit('needHelpList', students);
     });
     client.on('disconnect', function(){

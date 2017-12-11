@@ -1,0 +1,18 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TA Booking</title>
+</head>
+
+<body>
+  <script src="node_modules/vue/dist/vue.js"></script>
+  <a href="/student">Student</a>
+  <a href="/ta">Ta</a>
+  <div id="app">
+    {{ message }
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

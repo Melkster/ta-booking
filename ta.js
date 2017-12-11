@@ -13,7 +13,7 @@ var app = new Vue({
         needHelpList: [],
         helpedList: [],
 	isHelping: false,
-	studentHelpingName: ""
+	studentHelping: {}
     },
     methods: {
         emit: (data) => {
@@ -22,7 +22,12 @@ var app = new Vue({
         pickup: (person) => {
             socket.emit('pickup', person.id);
 	    app.isHelping = true;
-	    app.studentHelpingName = person.name;
-        }
+	    app.studentHelping = person;
+        },
+	doneHelp: (person) => {
+	    socket.emit('done', person.id);
+	    app.isHelping = false;
+	    app.studentHelping = {};
+	}
     }
 });

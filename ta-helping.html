@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>TA Helpig</title>
+  </head>
+
+  <body>
+    <script src="/node_modules/vue/dist/vue.js"></script>
+    <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+
+    <div id="app">
+      <h3>Students that need help</h3>
+      <ul>
+        <li v-for="person in needHelpList">
+          {{ person.name }}
+          <button v-on:click="pickup(person.id)">Pick up</button>
+        </li>
+      </ul>
+      <h3>Students that are getting helped</h3>
+      <ul>
+        <li v-for="person in helpedList">
+          {{ person.name }}
+        </li>
+      </ul>
+    </div>
+    <script src="ta.js"></script>
+  </body>
+</html>

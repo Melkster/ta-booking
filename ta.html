@@ -12,7 +12,8 @@
 
     <div id="app" style="float:left;">
       <div v-show="isHelping">
-	<p>You are currently helping {{ studentHelpingName }}.</p>
+	<p>You are currently helping {{ studentHelping.name }}.</p>
+	<button v-on:click="doneHelp(studentHelping)">Done</button>
       </div>
       <div>
 	<h3>Students that need help</h3>
