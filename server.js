@@ -15,12 +15,12 @@ counter = {
 var students = {};
 var rawdata = fs.readFile('backup.json', (err, data) => {
     if (err) {
-	var emptyStudents = {'needHelpList':[],'helpedList': []};
-	var studentJSON = JSON.stringify(emptyStudents);
-	fs.writeFileSync('backup.json', studentJSON);
-	students = emptyStudents;
+        var emptyStudents = {'needHelpList':[],'helpedList': []};
+        var studentJSON = JSON.stringify(emptyStudents);
+        fs.writeFileSync('backup.json', studentJSON);
+        students = emptyStudents;
     } else {
-	students = JSON.parse(data);
+        students = JSON.parse(data);
     }
 });
 
@@ -100,7 +100,7 @@ const server = http.createServer((req,res) => {
                 name: name,
                 time: date.toLocaleTimeString('en-SW', {hour12: false, hour: '2-digit', minute: '2-digit'})
             });
-	    backup();
+            backup();
             console.log('Student "' + name + '" added to list');
             io.emit('needHelpList', students);
         });
@@ -121,12 +121,12 @@ io.on('connection', function(client){
     });
     client.on('pickup', function(id) {
         helpStudent(id);
-	backup();
+        backup();
         io.emit('needHelpList', students);
     });
     client.on('done', function(id) {
         doneStudent(id);
-	backup();
+        backup();
         io.emit('needHelpList', students);
     });
     client.on('disconnect', function(){

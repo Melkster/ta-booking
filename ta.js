@@ -12,8 +12,8 @@ var app = new Vue({
     data: {
         needHelpList: [],
         helpedList: [],
-	isHelping: false,
-	studentHelping: {}
+        isHelping: false,
+        studentHelping: {}
     },
     methods: {
         emit: (data) => {
@@ -21,13 +21,13 @@ var app = new Vue({
         },
         pickup: (person) => {
             socket.emit('pickup', person.id);
-	    app.isHelping = true;
-	    app.studentHelping = person;
+            app.isHelping = true;
+            app.studentHelping = person;
         },
-	doneHelp: (person) => {
-	    socket.emit('done', person.id);
-	    app.isHelping = false;
-	    app.studentHelping = {};
-	}
+        doneHelp: (person) => {
+            socket.emit('done', person.id);
+            app.isHelping = false;
+            app.studentHelping = {};
+        }
     }
 });
