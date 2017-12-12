@@ -20,6 +20,7 @@
 	<ul>
           <li v-for="person in needHelpList">
             {{ person.name }}
+            {{ person.time }}
             <button v-on:click="pickup(person)" v-show="!isHelping">Pick up</button>
           </li>
 	</ul>

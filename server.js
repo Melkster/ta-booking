@@ -3,26 +3,13 @@ const fs   = require('fs');
 const port = 8080;
 const qs   = require('querystring')
 
+var date = new Date()
+
 counter = {
     id: 0,
     generateId: function() {
         return this.id++;
     }
-}
-
-var students = {
-    'needHelpList': [
-        {
-            id: counter.generateId(),
-            name: "Michael"
-        }
-    ],
-    'helpedList': [
-        {
-            id: counter.generateId(),
-            name: "Jonatan"
-        }
-    ]
 }
 
 var students = {};
@@ -36,8 +23,6 @@ var rawdata = fs.readFile('backup.json', (err, data) => {
 	students = JSON.parse(data);
     }
 });
-
-
 
 function backup() {
     var data = JSON.stringify(students);
@@ -112,7 +97,8 @@ const server = http.createServer((req,res) => {
             name = qs.parse(body).name
             students.needHelpList.push({
                 id: counter.generateId(),
-                name: name
+                name: name,
+                time: date.toLocaleString('en-SW')
             });
 	    backup();
             console.log('Student "' + name + '" added to list');
