@@ -7,6 +7,6 @@ run:
 clean:
 	rm -f backup.json
 
-fill:
+mockup:
 	cat mockup.json > backup.json
 	make run
