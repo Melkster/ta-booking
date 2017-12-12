@@ -98,7 +98,7 @@ const server = http.createServer((req,res) => {
             students.needHelpList.push({
                 id: counter.generateId(),
                 name: name,
-                time: date.toLocaleString('en-SW')
+                time: date.toLocaleTimeString('en-SW', {hour12: false, hour: '2-digit', minute: '2-digit'})
             });
 	    backup();
             console.log('Student "' + name + '" added to list');

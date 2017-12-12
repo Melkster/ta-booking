@@ -1,0 +1,41 @@
+{
+  "needHelpList":[
+    {
+      "id":3,
+      "name":"Aditya Vera",
+      "time":"13:01"
+    },
+    {
+      "id":4,
+      "name":"Lejla Phares",
+      "time":"13:02"
+    },
+    {
+      "id":5,
+      "name":"Pablo Ukaleq",
+      "time":"13:02"
+    },
+    {
+      "id":6,
+      "name": "Nora Sanjay",
+      "time":"13:03"
+    }
+  ],
+  "helpedList":[
+    {
+      "id":7,
+      "name": "Markus Nyssa",
+      "time":"13:04"
+    },
+    {
+      "id":8,
+      "name": "Clara Filip",
+      "time":"13:05"
+    },
+    {
+      "id":9,
+      "name": "Ani Alfonso",
+      "time":"13:06"
+    }
+  ]
+}
