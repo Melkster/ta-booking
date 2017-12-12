@@ -1,6 +1,6 @@
 const http = require('http');
 const fs   = require('fs');
-const port = 8080;
+const port = 80;
 const qs   = require('querystring')
 
 counter = {
@@ -10,19 +10,29 @@ counter = {
     }
 }
 
-var students = {
-    'needHelpList': [
-        {
-            id: counter.generateId(),
-            name: "Michael"
-        }
-    ],
-    'helpedList': [
-        {
-            id: counter.generateId(),
-            name: "Jonatan"
-        }
-    ],
+// var students = {
+//     'needHelpList': [
+//         {
+//             id: counter.generateId(),
+//             name: "Michael"
+//         }
+//     ],
+//     'helpedList': [
+//         {
+//             id: counter.generateId(),
+//             name: "Jonatan"
+//         }
+//     ]
+// }
+
+var students = {};
+var rawdata = fs.readFileSync('backup.json');
+students = JSON.parse(rawdata);
+console.log(students);
+
+function backup() {
+    var data = JSON.stringify(students);
+    fs.writeFileSync('backup.json', data);
 }
 
 function helpStudent(id) {
@@ -30,6 +40,15 @@ function helpStudent(id) {
         if (students.needHelpList[i].id == id) {
             students.helpedList.push(students.needHelpList[i]);
             students.needHelpList.splice(i, 1);
+            break;
+        }
+    }
+}
+
+function doneStudent(id) {
+    for (var i = 0; i < students.helpedList.length; i++) {
+        if (students.helpedList[i].id == id) {
+            students.helpedList.splice(i, 1);
             break;
         }
     }
@@ -86,6 +105,7 @@ const server = http.createServer((req,res) => {
                 id: counter.generateId(),
                 name: name
             });
+	    backup();
             console.log('Student "' + name + '" added to list');
             io.emit('needHelpList', students);
         });
@@ -106,6 +126,12 @@ io.on('connection', function(client){
     });
     client.on('pickup', function(id) {
         helpStudent(id);
+	backup();
+        io.emit('needHelpList', students);
+    });
+    client.on('done', function(id) {
+        doneStudent(id);
+	backup();
         io.emit('needHelpList', students);
     });
     client.on('disconnect', function(){

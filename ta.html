@@ -10,20 +10,26 @@
     <script src="/node_modules/vue/dist/vue.js"></script>
     <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
 
-    <div id="app">
-      <h3>Students that need help</h3>
-      <ul>
-        <li v-for="person in needHelpList">
-          {{ person.name }}
-          <button v-on:click="pickup(person.id)">Pick up</button>
-        </li>
-      </ul>
-      <h3>Students that are getting helped</h3>
-      <ul>
-        <li v-for="person in helpedList">
-          {{ person.name }}
-        </li>
-      </ul>
+    <div id="app" style="float:left;">
+      <div v-show="isHelping">
+	<p>You are currently helping {{ studentHelping.name }}.</p>
+	<button v-on:click="doneHelp(studentHelping)">Done</button>
+      </div>
+      <div>
+	<h3>Students that need help</h3>
+	<ul>
+          <li v-for="person in needHelpList">
+            {{ person.name }}
+            <button v-on:click="pickup(person)" v-show="!isHelping">Pick up</button>
+          </li>
+	</ul>
+	<h3>Students that are getting helped</h3>
+	<ul>
+          <li v-for="person in helpedList">
+            {{ person.name }}
+          </li>
+	</ul>
+      </div>
     </div>
     <script src="ta.js"></script>
   </body>
