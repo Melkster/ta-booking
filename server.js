@@ -10,25 +10,34 @@ counter = {
     }
 }
 
-// var students = {
-//     'needHelpList': [
-//         {
-//             id: counter.generateId(),
-//             name: "Michael"
-//         }
-//     ],
-//     'helpedList': [
-//         {
-//             id: counter.generateId(),
-//             name: "Jonatan"
-//         }
-//     ]
-// }
+var students = {
+    'needHelpList': [
+        {
+            id: counter.generateId(),
+            name: "Michael"
+        }
+    ],
+    'helpedList': [
+        {
+            id: counter.generateId(),
+            name: "Jonatan"
+        }
+    ]
+}
 
 var students = {};
-var rawdata = fs.readFileSync('backup.json');
-students = JSON.parse(rawdata);
-console.log(students);
+var rawdata = fs.readFile('backup.json', (err, data) => {
+    if (err) {
+	var emptyStudents = {'needHelpList':[],'helpedList': []};
+	var studentJSON = JSON.stringify(emptyStudents);
+	fs.writeFileSync('backup.json', studentJSON);
+	students = emptyStudents;
+    } else {
+	students = JSON.parse(data);
+    }
+});
+
+
 
 function backup() {
     var data = JSON.stringify(students);
