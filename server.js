@@ -29,7 +29,7 @@ var students = {};
 var rawdata = fs.readFile('backup.json', (err, data) => {
     if (err) {
 	var emptyStudents = {'needHelpList':[],'helpedList': []};
-	var stundentJSON = JSON.stringify(emptyStudents);
+	var studentJSON = JSON.stringify(emptyStudents);
 	fs.writeFileSync('backup.json', studentJSON);
 	students = emptyStudents;
     } else {
