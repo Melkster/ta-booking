@@ -122,9 +122,12 @@ io.on('connection', function(client){
         io.emit('needHelpList', students);
     });
     client.on('pickup', function(id) {
-        helpStudent(id);
-        backup();
-        io.emit('needHelpList', students);
+        atomic('lock', function (done, key, id){
+            console.log("locked id " + id);
+            helpStudent(id);
+            backup();
+            io.emit('needHelpList', students);
+        });
     });
     client.on('done', function(id) {
         atomic('lock', function (done, key, id){
