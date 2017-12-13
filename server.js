@@ -4,6 +4,7 @@ const port = 80;
 const qs   = require('querystring')
 
 var date = new Date()
+var atomic = require('atomic')()
 
 counter = {
     id: 0,
@@ -126,10 +127,13 @@ io.on('connection', function(client){
         io.emit('needHelpList', students);
     });
     client.on('done', function(id) {
-        if (doneStudent(id)){
-            backup();
-            io.emit('needHelpList', students);
-	}
+        atomic('lock', function (done, key, id){
+            doneStudent(id)
+            done()
+        });
+        backup();
+        io.emit('needHelpList', students);
+
     });
     client.on('disconnect', function(){
         console.log('User disconnected');
