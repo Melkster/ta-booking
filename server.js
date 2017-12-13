@@ -43,10 +43,10 @@ function doneStudent(id) {
     for (var i = 0; i < students.helpedList.length; i++) {
         if (students.helpedList[i].id == id) {
             students.helpedList.splice(i, 1);
-            return True
+            return true
         }
     }
-    return False
+    return false
 }
 
 function getRequestHandler(url, res) {
@@ -126,9 +126,10 @@ io.on('connection', function(client){
         io.emit('needHelpList', students);
     });
     client.on('done', function(id) {
-        if doneStudent(id)
+        if (doneStudent(id)){
             backup();
             io.emit('needHelpList', students);
+	}
     });
     client.on('disconnect', function(){
         console.log('User disconnected');
