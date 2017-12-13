@@ -1,6 +1,6 @@
 const http = require('http');
 const fs   = require('fs');
-const port = 8080;
+const port = 80;
 const qs   = require('querystring')
 
 var date = new Date()
@@ -43,9 +43,10 @@ function doneStudent(id) {
     for (var i = 0; i < students.helpedList.length; i++) {
         if (students.helpedList[i].id == id) {
             students.helpedList.splice(i, 1);
-            break;
+            return True
         }
     }
+    return False
 }
 
 function getRequestHandler(url, res) {
@@ -125,9 +126,9 @@ io.on('connection', function(client){
         io.emit('needHelpList', students);
     });
     client.on('done', function(id) {
-        doneStudent(id);
-        backup();
-        io.emit('needHelpList', students);
+        if doneStudent(id)
+            backup();
+            io.emit('needHelpList', students);
     });
     client.on('disconnect', function(){
         console.log('User disconnected');
